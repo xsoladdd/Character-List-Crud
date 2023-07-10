@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.15",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
     "formik": "^2.4.2",
+    "jotai": "^2.2.2",
     "next": "13.4.9",
     "node-json-db": "^2.2.0",
     "postcss": "8.4.25",
@@ -27,6 +29,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@swc-jotai/react-refresh": "^0.0.8",
     "daisyui": "^3.2.1"
   }
 }

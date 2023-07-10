@@ -3,9 +3,9 @@ interface catchError {
 }
 
 interface ICharacter {
-  id: string;
+  id?: string;
   weapon: string;
-  description: string;
-  combatStatus: boolean;
+  description?: string;
+  combatStatus?: boolean;
   name:string;
 }

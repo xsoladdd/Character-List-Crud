@@ -1,35 +1,46 @@
 "use client";
-import React from "react";
+import { editFormAtom } from "@/Store/Atoms";
+import { useAtom } from "jotai";
+import React, { useState } from "react";
 import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 import { ImSpinner2 } from "react-icons/im";
-import { useQuery } from "react-query";
-import { getCharacters } from "./helper";
+import { useMutation, useQuery } from "react-query";
+import DeleteModal from "../components/DeleteModal";
+import TableMessage from "../components/TableMessage";
+import { deleteCharacter, getCharacters } from "./helper";
+import TableLoader from "../components/TableLoader";
+import { queryClient } from "@/config/react-query-config";
 
 const List: React.FC = () => {
   const { data, status, isLoading } = useQuery<{
     characters: Array<ICharacter>;
   }>("characters", getCharacters);
 
-  const tableMessage = (message: string) => (
-      <tr className="">
-        <td className="align-top text-center " colSpan={6}>
-          {message}
-        </td>
-      </tr>
-  );
+  const mutation = useMutation(deleteCharacter,{
+    onSuccess:() => {
+      queryClient.invalidateQueries({ queryKey: ["characters"] });
+      setModalStatus(false)
+    }
+  });
 
-  const tableLoader = (
-      <tr >
-        <td className="w-full  " colSpan={6}>
-          <div className="flex place-content-center">
-          <ImSpinner2 className="animate-spin " size={30} />
-          </div>
-        </td>
-      </tr>
-  );
+
+
+
+  const [modalStatus, setModalStatus] = useState(false);
+  const [deleteId, setDeleteId] = useState<string|undefined>('')
+
+  const [_, setForm] = useAtom(editFormAtom);
+
+
+  const handleOpenModal = (id:string|undefined) => {
+   if(id){
+    setDeleteId(id)
+    setModalStatus(true)
+   }
+  }
+
 
   const dataMap = (character: ICharacter, key: number) => (
-    <>
       <tr className="align-top" key={key}>
         <td className="align-top">{character.id}</td>
         <td className="align-top">{character.name}</td>
@@ -40,28 +51,46 @@ const List: React.FC = () => {
             <input
               type="checkbox"
               className="toggle toggle-success toggle-md"
-              checked
+              checked={character.combatStatus}
             />
           </div>
         </td>
         <td className="flex gap-2">
           <div className="tooltip" data-tip="Delete">
-            <button className="btn btn-sm btn-error">
+            <button className="btn btn-sm btn-error" onClick={() => handleOpenModal(character.id)}>
               <HiOutlineTrash size="18" />
             </button>
           </div>
           <div className="tooltip" data-tip="Edit">
-            <button className="btn btn-sm btn-warning">
+            <button
+              className="btn btn-sm btn-warning"
+              onClick={() => setForm({ ...character })}
+            >
               <HiOutlinePencilSquare size="18" />
             </button>
           </div>
         </td>
       </tr>
-    </>
   );
+
+  const handleCloseModal = () => {
+    setModalStatus(false)
+    setDeleteId(undefined)
+  }
+
+  const handleSubmitModal = () => {
+    if(typeof deleteId ==='string' ){
+      mutation.mutate(deleteId)
+    }
+  }
 
   return (
     <>
+      <DeleteModal
+        handleClose={handleCloseModal}
+        handleSubmit={handleSubmitModal}
+        status={modalStatus}
+      />
       <div className="flex flex-col place-items-center gap-5">
         <h2 className="text-secondary text-2xl font-bold uppercase">
           List of characters
@@ -79,15 +108,19 @@ const List: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {isLoading && tableLoader}
-              {status === "error" && tableMessage("Something went wrong")}
+              {isLoading && <TableLoader />}
+              {status === "error" && (
+                <TableMessage message="Something went wrong" />
+              )}
               {status === "success" &&
               data?.characters &&
-              data?.characters.length === 0
-                ? tableMessage("No data found")
-                : data?.characters.map((character, key) =>
-                    dataMap(character, key)
-                  )}
+              data?.characters.length === 0 ? (
+                <TableMessage message="No data found" />
+              ) : (
+                data?.characters.map((character, key) =>
+                  dataMap(character, key)
+                )
+              )}
             </tbody>
           </table>
         </div>

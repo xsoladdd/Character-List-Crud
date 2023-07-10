@@ -27,9 +27,10 @@ export async function DELETE(_: any, { params }: { params: { slug: string } }) {
       throw new Error("Invalid Slug");
     }
     await db.delete(`/characters[${index}]`);
+    await db.save()
     return NextResponse.json(
-      {},
-      { status: 204, statusText: "Delete succesfully" }
+      {message:"Delete succesfully"},
+      { status: 200, statusText: "Delete succesfully" }
     );
   } catch (error) {
     return NextResponse.json(

@@ -22,18 +22,18 @@
             "name": "John Doe"
         },
         {
-            "combatStatus": true,
-            "weapon": "Bow and Arrow",
-            "id": "qqgk6b",
+            "combatStatus": false,
             "description": "My own character",
-            "name": "Gerald x"
+            "name": "Gerald x z",
+            "weapon": "Bow and Arrow",
+            "id": "qqgk6b"
         },
         {
-            "combatStatus": true,
-            "weapon": "sword",
-            "id": "vkwo7l",
+            "combatStatus": false,
             "description": "My own character",
-            "name": "Ericson"
+            "name": "Ericsonx",
+            "weapon": "sword",
+            "id": "vkwo7l"
         }
     ]
 }
