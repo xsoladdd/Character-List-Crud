@@ -61,7 +61,7 @@ const AddingForm: React.FC = () => {
     <>
 
       <div className="flex flex-col place-items-center gap-5">
-        <h2 className="text-secondary text-2xl font-bold uppercase">
+        <h2 className="text-primary text-2xl font-bold uppercase">
           Add new character
         </h2>
         {weaponStatus === "loading" ? (

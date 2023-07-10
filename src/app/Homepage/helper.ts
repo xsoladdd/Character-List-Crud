@@ -48,6 +48,21 @@ export const addUpdateCharacter =  async (body: ICharacter) => {
   }
 }
 
+export const toggleCharacterCombatStatus =  async (body: ICharacter) => {
+    const response = await fetch(`/api/character/${body.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+}
+
 export const deleteCharacter =  async (id:string) => {
     const response = await fetch(`/api/character/${id}`, {
       method: "DELETE",

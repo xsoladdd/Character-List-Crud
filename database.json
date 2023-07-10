@@ -22,14 +22,14 @@
             "name": "John Doe"
         },
         {
-            "combatStatus": false,
+            "combatStatus": true,
             "description": "My own character",
             "name": "Gerald x z",
             "weapon": "Bow and Arrow",
             "id": "qqgk6b"
         },
         {
-            "combatStatus": false,
+            "combatStatus": true,
             "description": "My own character",
             "name": "Ericsonx",
             "weapon": "sword",

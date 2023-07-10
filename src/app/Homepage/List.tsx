@@ -7,7 +7,7 @@ import { ImSpinner2 } from "react-icons/im";
 import { useMutation, useQuery } from "react-query";
 import DeleteModal from "../components/DeleteModal";
 import TableMessage from "../components/TableMessage";
-import { deleteCharacter, getCharacters } from "./helper";
+import { deleteCharacter, getCharacters, toggleCharacterCombatStatus } from "./helper";
 import TableLoader from "../components/TableLoader";
 import { queryClient } from "@/config/react-query-config";
 
@@ -22,9 +22,11 @@ const List: React.FC = () => {
       setModalStatus(false)
     }
   });
-
-
-
+  const deleteMutation = useMutation(toggleCharacterCombatStatus,{
+    onSuccess:() => {
+      queryClient.invalidateQueries({ queryKey: ["characters"] });
+    }
+  });
 
   const [modalStatus, setModalStatus] = useState(false);
   const [deleteId, setDeleteId] = useState<string|undefined>('')
@@ -47,17 +49,19 @@ const List: React.FC = () => {
         <td className="align-top">{character.weapon}</td>
         <td className="align-top">{character.description}</td>
         <td className="align-top text-center">
-          <div className="tooltip" data-tip="Toggle on combat status">
+          <div className="tooltip" data-tip={`Toggle ${character.combatStatus?'OFF':'ON'} combat status`}>
             <input
               type="checkbox"
               className="toggle toggle-success toggle-md"
               checked={character.combatStatus}
+              disabled={deleteMutation.isLoading}
+              onClick={() => deleteMutation.mutate({...character,combatStatus:!character.combatStatus})}
             />
           </div>
         </td>
         <td className="flex gap-2">
           <div className="tooltip" data-tip="Delete">
-            <button className="btn btn-sm btn-error" onClick={() => handleOpenModal(character.id)}>
+            <button className="btn btn-sm btn-error" onClick={() => handleOpenModal(character.id)} >
               <HiOutlineTrash size="18" />
             </button>
           </div>
@@ -92,8 +96,8 @@ const List: React.FC = () => {
         status={modalStatus}
       />
       <div className="flex flex-col place-items-center gap-5">
-        <h2 className="text-secondary text-2xl font-bold uppercase">
-          List of characters
+        <h2 className="text-primary text-2xl font-bold uppercase">
+          characters
         </h2>
         <div className="overflow-x-auto w-full">
           <table className="table table-md">
