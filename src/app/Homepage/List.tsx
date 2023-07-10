@@ -3,17 +3,12 @@ import React from "react";
 import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 import { ImSpinner2 } from "react-icons/im";
 import { useQuery } from "react-query";
+import { getCharacters } from "./helper";
 
 const List: React.FC = () => {
   const { data, status, isLoading } = useQuery<{
     characters: Array<ICharacter>;
-  }>("characters", async () => {
-    const response = await fetch("/api/characters");
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  });
+  }>("characters", getCharacters);
 
   const tableMessage = (message: string) => (
       <tr className="">
