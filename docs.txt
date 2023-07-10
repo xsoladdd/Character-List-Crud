@@ -1,0 +1,15 @@
+Character App
+    - List of characters
+        - Name
+        - Weapon (Dropdown)
+        - Description
+        - Combat Status
+
+
+    API Endpoints
+    x   /api/weapons:GET = Get list of weapons available
+    x   /api/characters:GET = Get list of characters
+    x   /api/character/id:GET = Get single character data
+    x   /api/character/id:DELETE = Delete single character data
+    x   /api/character/id:PUT = Update single character data
+    x   /api/character:POST = Add new character

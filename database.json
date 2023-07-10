@@ -1,0 +1,39 @@
+{
+    "test1": "super test",
+    "weapons": [
+        "Knife",
+        "Sword",
+        "Dagger",
+        "Bow and Arrow",
+        "Sling",
+        "Club",
+        "Spear",
+        "Staff",
+        "Throwing Axe",
+        "Mace",
+        "Whip"
+    ],
+    "characters": [
+        {
+            "combatStatus": false,
+            "description": "An Awesome Character",
+            "id": "03397j",
+            "weapon": "whip",
+            "name": "John Doe"
+        },
+        {
+            "combatStatus": true,
+            "weapon": "Bow and Arrow",
+            "id": "qqgk6b",
+            "description": "My own character",
+            "name": "Gerald x"
+        },
+        {
+            "combatStatus": true,
+            "weapon": "sword",
+            "id": "vkwo7l",
+            "description": "My own character",
+            "name": "Ericson"
+        }
+    ]
+}
