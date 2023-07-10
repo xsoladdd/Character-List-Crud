@@ -5,12 +5,14 @@ interface DeleteModalProps {
   status: boolean;
   handleClose: () => void;
   handleSubmit: () => void;
+  text?:string;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
   handleClose,
   handleSubmit,
   status,
+  text = ''
 }) => {
   return (
     <>
@@ -48,7 +50,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure that you want to delete record?
+                      {text}
                     </p>
                   </div>
 

@@ -73,6 +73,22 @@ export const deleteCharacter =  async (id:string) => {
     return response.json();
 }
 
+export const deleteCharacters =  async (arr:string[]) => {
+  const response = await fetch(`/api/characters/`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({
+      idArr:arr
+    }),
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+}
 
 
 export const validationSchema = object({

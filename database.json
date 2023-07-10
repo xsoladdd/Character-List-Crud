@@ -15,25 +15,11 @@
     ],
     "characters": [
         {
-            "combatStatus": false,
-            "description": "An Awesome Character",
-            "id": "03397j",
-            "weapon": "whip",
-            "name": "John Doe"
-        },
-        {
             "combatStatus": true,
             "description": "My own character",
-            "name": "Gerald x z",
-            "weapon": "Bow and Arrow",
-            "id": "qqgk6b"
-        },
-        {
-            "combatStatus": true,
-            "description": "My own character",
-            "name": "Ericsonx",
+            "name": "Eric123xsonx",
             "weapon": "sword",
-            "id": "vkwo7l"
+            "id": "vkwo74"
         }
     ]
 }

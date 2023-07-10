@@ -13,3 +13,4 @@ Character App
     x   /api/character/id:DELETE = Delete single character data
     x   /api/character/id:PUT = Update single character data
     x   /api/character:POST = Add new character
+    x   /api/characters:DELETE = Delete multiple character data based on ID
