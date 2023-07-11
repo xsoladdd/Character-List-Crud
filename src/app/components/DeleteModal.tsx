@@ -64,6 +64,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                     </button>
                     <button
                       className="btn btn-error btn-sm"
+                      id="confirm-delete-button"
                       type="button"
                       onClick={() => handleSubmit()}
                     >

@@ -1,5 +1,4 @@
 {
-    "test1": "super test",
     "weapons": [
         "Knife",
         "Sword",
@@ -16,10 +15,24 @@
     "characters": [
         {
             "combatStatus": true,
-            "description": "My own character",
-            "name": "Eric123xsonx",
-            "weapon": "sword",
-            "id": "vkwo74"
+            "description": "244",
+            "name": "Cruz",
+            "weapon": "Mace",
+            "id": "qHRKCxhXD4Qaa223hwZadN"
+        },
+        {
+            "combatStatus": false,
+            "weapon": "Sling",
+            "id": "iR9sa7zXaUkJwiPH5vUkwt",
+            "description": "Bawal",
+            "name": "koy"
+        },
+        {
+            "combatStatus": false,
+            "weapon": "Bow and Arrow",
+            "id": "iR9sa7zXaUkJwiPH5vUkwt",
+            "description": "Black car",
+            "name": "Black"
         }
     ]
 }

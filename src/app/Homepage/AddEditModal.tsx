@@ -7,6 +7,7 @@ import React, { Fragment } from "react";
 import { useQuery, useMutation } from "react-query";
 import { getWeapons, addUpdateCharacter, validationSchema } from "./helper";
 import { joinClass } from "@/utils/joinClass";
+import { useGetWeapons, useUpdateCharacter } from "./hooks";
 
 interface IAddEditModalProps {
   status: boolean;
@@ -17,19 +18,14 @@ const AddEditModal: React.FC<IAddEditModalProps> = ({
   handleClose,
   status,
 }) => {
-  const { data: weaponData, status: weaponStatus } = useQuery<{
-    weapons: Array<string>;
-  }>("weapons", getWeapons);
+  const { data } = useGetWeapons();
 
   const [form, setForm] = useAtom(editFormAtom);
 
-  const mutation = useMutation(addUpdateCharacter, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["characters"] });
-      resetForm();
-      formik.setSubmitting(false);
-      handleClose();
-    },
+  const mutation = useUpdateCharacter(() => {
+    resetForm();
+    formik.setSubmitting(false);
+    handleClose();
   });
 
   const formik = useFormik<Omit<ICharacter, "combatStatus">>({
@@ -153,8 +149,8 @@ const AddEditModal: React.FC<IAddEditModalProps> = ({
                           <option disabled value="">
                             Choose Weapon
                           </option>
-                          {weaponData &&
-                            weaponData.weapons.map((opt) => (
+                          {data &&
+                            data.weapons.map((opt) => (
                               <option value={opt} key={opt}>
                                 {opt}
                               </option>

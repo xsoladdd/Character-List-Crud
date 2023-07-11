@@ -1,7 +1,7 @@
 import { object, string } from "yup";
 
 
-export const getWeapons = async () => {
+export const getWeapons = async ():Promise<{weapons:Array<string>}> => {
   const response = await fetch("/api/weapons");
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -9,7 +9,7 @@ export const getWeapons = async () => {
   return response.json();
 }
 
-export const getCharacters = async () => {
+export const getCharacters = async ():Promise<{characters:Array<ICharacter>}> => {
   const response = await fetch("/api/characters");
   if (!response.ok) {
     throw new Error("Network response was not ok");

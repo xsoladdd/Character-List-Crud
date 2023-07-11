@@ -1,45 +1,35 @@
 "use client";
-import React, { useState } from "react";
 import { editFormAtom } from "@/Store/Atoms";
-import { queryClient } from "@/config/react-query-config";
 import { useAtom } from "jotai";
-import { HiOutlineTrash, HiOutlinePencilSquare } from "react-icons/hi2";
-import { useQuery, useMutation } from "react-query";
+import React, { useState } from "react";
+import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 import DeleteModal from "../components/DeleteModal";
 import TableLoader from "../components/TableLoader";
 import TableMessage from "../components/TableMessage";
-import {
-  getCharacters,
-  deleteCharacter,
-  toggleCharacterCombatStatus,
-  deleteCharacters,
-} from "./helper";
 import AddEditModal from "./AddEditModal";
+import {
+  useDeleteCharacter,
+  useDeleteCharacters,
+  useGetCharacters,
+  useToggleMutation,
+} from "./hooks";
 
-const Home: React.FC = () => {
-  const { data, status, isLoading } = useQuery<{
-    characters: Array<ICharacter>;
-  }>("characters", getCharacters);
-
-  const deleteMutation = useMutation(deleteCharacter, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["characters"] });
-      setDeleteModalStatus(false);
-    },
-  });
-  const toggleMutation = useMutation(toggleCharacterCombatStatus, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["characters"] });
-    },
-  });
-
-  const massDeleteMutation = useMutation(deleteCharacters, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["characters"] });
-    },
+const Homepage: React.FC = () => {
+  const { data, status, isLoading } = useGetCharacters();
+  const deleteMutation = useDeleteCharacter(() => setDeleteModalStatus(false));
+  const toggleMutation = useToggleMutation();
+  const massDeleteMutation = useDeleteCharacters(() => {
+    setDeleteIds([])
   });
 
   const [deleteIds, setDeleteIds] = useState<Array<string>>([]);
+  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
+  const [massDeletedModalStatus, setMassDeletedModalStatus] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | undefined>("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [nameFilter, setNameFilter] = useState("");
+  const [_, setForm] = useAtom(editFormAtom);
+  const [addEditModalStatus, setAddEditModalStatus] = useState(false);
 
   const handleSelectClick = (id: string) => {
     const isClicked = deleteIds.includes(id);
@@ -50,15 +40,6 @@ const Home: React.FC = () => {
     }
   };
 
-  const [deleteModalStatus, setDeleteModalStatus] = useState(false);
-  const [massDeletedModalStatus, setMassDeletedModalStatus] = useState(false);
-  const [deleteId, setDeleteId] = useState<string | undefined>("");
-
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [nameFilter, setNameFilter] = useState("");
-
-  const [_, setForm] = useAtom(editFormAtom);
-
   const handleOpenModal = (id: string | undefined) => {
     if (id) {
       setDeleteId(id);
@@ -66,19 +47,17 @@ const Home: React.FC = () => {
     }
   };
 
-  const [addEditModalStatus, setAddEditModalStatus] = useState(false);
-
   const dataMap = (character: ICharacter, key: number) => (
     <tr className="align-top text-center" key={key}>
       <td className="align-top">
         <input
           type="checkbox"
           checked={deleteIds.includes(character.id as string)}
-          onClick={() => handleSelectClick(character.id as string)}
+          onChange={() => handleSelectClick(character.id as string)}
           className="checkbox checkbox-sm checkbox-accent"
         />
       </td>
-      <td className="align-top">{character.id}</td>
+      {/* <td className="align-top">{character.id}</td> */}
       <td className="align-top">{character.name}</td>
       <td className="align-top">{character.weapon}</td>
       <td className="align-top">{character.description}</td>
@@ -94,7 +73,7 @@ const Home: React.FC = () => {
             className="toggle toggle-success toggle-md"
             checked={character.combatStatus}
             disabled={toggleMutation.isLoading}
-            onClick={() =>
+            onChange={() =>
               toggleMutation.mutate({
                 ...character,
                 combatStatus: !character.combatStatus,
@@ -107,6 +86,7 @@ const Home: React.FC = () => {
         <div className="tooltip" data-tip="Delete">
           <button
             className="btn btn-sm btn-error"
+            id={`delete-btn-${character.id}`}
             onClick={() => handleOpenModal(character.id)}
           >
             <HiOutlineTrash size="18" />
@@ -204,7 +184,6 @@ const Home: React.FC = () => {
             <thead>
               <tr className="text-center">
                 <th></th>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Weapon</th>
                 <th className="hidden sm:block"> Description</th>
@@ -212,7 +191,7 @@ const Home: React.FC = () => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="characters-table-body">
               {isLoading && <TableLoader />}
               {status === "error" && (
                 <TableMessage message="Something went wrong" />
@@ -242,4 +221,4 @@ const Home: React.FC = () => {
     </section>
   );
 };
-export default Home;
+export default Homepage;

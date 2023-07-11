@@ -14,3 +14,49 @@ Character App
     x   /api/character/id:PUT = Update single character data
     x   /api/character:POST = Add new character
     x   /api/characters:DELETE = Delete multiple character data based on ID
+
+
+
+
+
+.... dump .....
+
+
+{
+    "weapons": [
+        "Knife",
+        "Sword",
+        "Dagger",
+        "Bow and Arrow",
+        "Sling",
+        "Club",
+        "Spear",
+        "Staff",
+        "Throwing Axe",
+        "Mace",
+        "Whip"
+    ],
+    "characters": [
+        {
+            "combatStatus": false,
+            "weapon": "Dagger",
+            "id": "qHRKCxhXD4Qaa1n6hwZadN",
+            "description": "244",
+            "name": "4222"
+        },
+        {
+            "combatStatus": false,
+            "weapon": "Dagger",
+            "id": "qHRKCxhXD4Qaa223hwZadN",
+            "description": "244",
+            "name": "4222"
+        },
+        {
+            "combatStatus": false,
+            "weapon": "Dagger",
+            "id": "qHRKCxhXD4Qaa1n6hwZa2N",
+            "description": "244",
+            "name": "4222"
+        }
+    ]
+}
